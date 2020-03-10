@@ -1,0 +1,107 @@
+<div class="container mt-5">
+  <div class="container">
+    <h1>Add new User</h1>
+    <div class="card">
+      <div class="card-body">
+        <form
+          (ngSubmit)="userForm && save(userForm)"
+          #userForm="ngForm"
+          noValidate
+        >
+          <div class="form-group">
+            <label for="name">Name</label>
+            <input
+              type="text"
+              class="form-control"
+              name="username"
+              [(ngModel)]="user.name"
+              #username="ngModel"
+              [ngClass]="{
+                'is-invalid': userForm.submitted && username.invalid
+              }"
+              required
+              pattern="^[^,&|~-]*[^ ,&|~-][^,&|~-]*$"
+            />
+            <div
+              class="invalid-feedback"
+              *ngIf="userForm.submitted && username.invalid"
+            >
+              <div *ngIf="username.errors.required">Please enter your name</div>
+              <div *ngIf="username.errors.pattern">
+                Following special characters are not allowed.<strong>
+                  | , ~ - &</strong
+                >
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="email">Email</label>
+            <input
+              type="email"
+              name="userEmail"
+              class="form-control"
+              #userEmail="ngModel"
+              [(ngModel)]="user.email"
+              [ngClass]="{
+                'is-invalid': userForm.submitted && userEmail.invalid
+              }"
+              required
+              email
+            />
+            <div
+              class="invalid-feedback"
+              *ngIf="userForm.submitted && userEmail.invalid"
+            >
+              <div *ngIf="userEmail.errors.required">Please enter an email</div>
+              <div *ngIf="userEmail.errors.email">Email is not valid</div>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="password">Password</label>
+            <input
+              type="text"
+              class="form-control"
+              [(ngModel)]="user.password"
+              name="password"
+              [ngClass]="{
+                'is-invalid': userForm.submitted && password.invalid
+              }"
+              #password="ngModel"
+              required
+            />
+            <div class="invalid-feedback">
+              <div>Please input password</div>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="cpassword">Confirm Password</label>
+            <input
+              type="text"
+              class="form-control"
+              name="cpassword"
+              #cpassword="ngModel"
+              [(ngModel)]="user.password2"
+              [ngClass]="{
+                'is-invalid': userForm.submitted && cpassword.invalid
+              }"
+              required pattern="{{password.value}}"
+            />
+            <div class="invalid-feedback" *ngIf="userForm.submitted && cpassword.invalid">
+                <div *ngIf="cpassword.errors.required">Confirm password cannnot empty</div>
+                <div *ngIf="cpassword.errors.pattern">Passwords should match</div>
+            </div>
+          </div>
+
+          <div>
+            <button class="btn btn-primary" (click)="save(userForm)">
+              Save
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
